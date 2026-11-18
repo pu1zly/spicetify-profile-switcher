@@ -8,7 +8,7 @@ A local multi-account switcher extension for Spotify desktop using Spicetify. It
 
 - **Account Switching**: Switch between saved Spotify accounts without re-entering passwords or completing two-factor authentication.
 - **Profile Picture Support**: Automatically retrieves and saves account avatar images alongside usernames.
-- **Resource Efficient**: Uses a passive local background helper that sits idle (0% CPU, ~15MB RAM) and only executes during an account swap.
+- **Zero Resource Consumption**: Does not run active background scans, polling loops, or file monitors. When idle or when accounts are not being switched, it consumes 0% CPU and zero system resources.
 - **Session Preservation**: Backs up active session tokens before switching to prevent sessions from expiring.
 
 ---
@@ -62,7 +62,7 @@ Spotify stores its login credentials and user storage files in:
 
 This project consists of two components:
 1. **Extension (`profile-switcher.js`)**: Injects the switcher interface into Spotify, tracks profile labels and avatars, and sends switch commands.
-2. **Helper Service (`server.js`)**: A local HTTP server listening on `127.0.0.1:45821`. When a switch is requested, it closes Spotify, swaps the corresponding session files in AppData, and relaunches the application. It remains idle at all other times.
+2. **Helper Service (`server.js`)**: A local listener on `127.0.0.1:45821`. It is strictly passive and does not perform background monitoring or polling. It wakes up only when an account switch is triggered, closes Spotify, swaps the target session files in AppData, relaunches Spotify, and immediately goes back to sleep. When Spotify is closed or idle, it consumes no system resources.
 
 ---
 
