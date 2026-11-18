@@ -1,6 +1,6 @@
 # Spicetify Profile Switcher 🔄
 
-A dedicated, fast, local multi-account switcher for Spotify desktop via [Spicetify](https://spicetify.app/).
+A sleek, local multi-account switcher for Spotify desktop via [Spicetify](https://spicetify.app/).
 
 Switch between multiple Spotify accounts seamlessly in **1 click** directly from Spotify's top bar without logging out manually or typing passwords.
 
@@ -12,7 +12,7 @@ Switch between multiple Spotify accounts seamlessly in **1 click** directly from
 - **🖼️ Profile Pictures Supported**: Automatically discovers and saves each account's avatar image alongside its name and user ID.
 - **🎨 Native Spotify UI**: Frosted glassmorphism modal with rounded corners, subtle elevation borders, and no intrusive scrollbars.
 - **🔄 Auto-Syncing Sessions**: Automatically updates active refresh tokens before swapping, ensuring sessions never expire unexpectedly.
-- **🔇 Silent Local Helper**: Runs silently in the background on Windows (`~15MB RAM`, 0% CPU) and auto-starts on login.
+- **💤 Passive, On-Demand Background Helper**: Runs quietly in the background without scanning or polling files, using **0% CPU** and ~**15MB RAM**—it only activates at the exact second you request an account switch.
 
 ---
 
@@ -63,7 +63,7 @@ Spotify desktop stores its login tokens and active session credentials locally i
 
 This tool consists of two lightweight pieces:
 1. **Spicetify Extension (`profile-switcher.js`)**: Injects a custom modal into Spotify's client interface, manages saved profile metadata, and triggers session switches.
-2. **Local Helper Service (`server.js`)**: A tiny local HTTP daemon listening on `127.0.0.1:45821`. When triggered, it gracefully closes Spotify, swaps the target profile's session tokens into Spotify's AppData directories, and restarts Spotify.
+2. **Local Helper Service (`server.js`)**: A tiny local HTTP daemon listening on `127.0.0.1:45821`. It remains completely idle (0% CPU) until you click an action in Spotify. When triggered, it gracefully closes Spotify, swaps the target profile's session tokens into Spotify's AppData directories, and restarts Spotify before returning to idle.
 
 ---
 
