@@ -1,78 +1,77 @@
-# Spicetify Profile Switcher 🔄
+# Spicetify Profile Switcher
 
-A sleek, local multi-account switcher for Spotify desktop via [Spicetify](https://spicetify.app/).
-
-Switch between multiple Spotify accounts seamlessly in **1 click** directly from Spotify's top bar without logging out manually or typing passwords.
+A local multi-account switcher extension for Spotify desktop using Spicetify. It allows switching between multiple Spotify accounts directly from the top bar without re-entering login credentials.
 
 ---
 
-## ✨ Features
+## Features
 
-- **⚡ 1-Click Account Switching**: Instant account swapping without having to re-enter credentials or solve 2FA every time.
-- **🖼️ Profile Pictures Supported**: Automatically discovers and saves each account's avatar image alongside its name and user ID.
-- **🎨 Native Spotify UI**: Frosted glassmorphism modal with rounded corners, subtle elevation borders, and no intrusive scrollbars.
-- **🔄 Auto-Syncing Sessions**: Automatically updates active refresh tokens before swapping, ensuring sessions never expire unexpectedly.
-- **💤 Passive, On-Demand Background Helper**: Runs quietly in the background without scanning or polling files, using **0% CPU** and ~**15MB RAM**—it only activates at the exact second you request an account switch.
-
----
-
-## 📋 Prerequisites
-
-- **[Spotify Desktop](https://www.spotify.com/download/)** (Standard desktop app)
-- **[Spicetify CLI](https://spicetify.app/)** (`v2.x`+)
-- **[Node.js](https://nodejs.org/)** (`v18` or higher)
+- **Account Switching**: Switch between saved Spotify accounts without re-entering passwords or completing two-factor authentication.
+- **Profile Picture Support**: Automatically retrieves and saves account avatar images alongside usernames.
+- **Resource Efficient**: Uses a passive local background helper that sits idle (0% CPU, ~15MB RAM) and only executes during an account swap.
+- **Session Preservation**: Backs up active session tokens before switching to prevent sessions from expiring.
 
 ---
 
-## 🚀 Quick Installation
+## Requirements
+
+- **Spotify Desktop** (Windows)
+- **Spicetify CLI** (v2.x or later)
+- **Node.js** (v18 or later)
+
+---
+
+## Installation
 
 1. Clone or download this repository:
    ```bash
    git clone https://github.com/YOUR_USERNAME/spicetify-profile-switcher.git
    cd spicetify-profile-switcher
    ```
-2. Double-click **`install.bat`** (or run it in Command Prompt / PowerShell).
-3. Open Spotify — you will see the **Profile Switcher** icon in your top bar!
+2. Run `install.bat`.
+3. Open Spotify. The Profile Switcher button will be available in the top bar.
+
+The installer copies the extension into your Spicetify extensions directory, configures a startup entry for the background helper, and runs `spicetify apply`.
 
 ---
 
-## 📖 How to Use
+## Usage
 
-1. **Save Your Current Account**:
-   - Open Spotify and click the **Profile Switcher** icon in the top bar.
-   - Click **`💾 Save Current Account`** and give it a label (e.g. `Personal` or `Main`).
-   - Spotify will quickly restart to snapshot your active session.
+### Saving the Current Account
+1. Open Spotify and click the **Profile Switcher** icon in the top navigation bar.
+2. Click **Save Current Account**.
+3. Enter a label for the profile (e.g., `Main` or `Work`). Spotify will briefly restart to store the session data.
 
-2. **Add Your Other Accounts**:
-   - Open the Profile Switcher again and click **`➕ Add Another Account`**.
-   - Spotify will sign out and display the Spotify Login screen.
-   - Log into your second account.
-   - Click the Profile Switcher icon and click **`💾 Save Current Account`** (e.g. `Work` or `Alt`).
+### Adding Another Account
+1. Open the Profile Switcher menu and click **Add Another Account**.
+2. Confirm the prompt. Spotify will sign out and return to the login screen.
+3. Sign in with your second account.
+4. Click the Profile Switcher icon and select **Save Current Account** to store it.
 
-3. **Switch Between Accounts**:
-   - Simply click the top bar icon, click **`Switch`** next to any saved profile, and Spotify will restart instantly logged into that account.
+### Switching Accounts
+Open the Profile Switcher menu and click **Switch** next to the desired profile. Spotify will restart logged into that account.
 
 ---
 
-## 🛠️ How It Works Under the Hood
+## How It Works
 
-Spotify desktop stores its login tokens and active session credentials locally inside:
+Spotify stores its login credentials and user storage files in:
 - `%APPDATA%\Spotify\prefs`
 - `%APPDATA%\Spotify\Users`
 - `%LOCALAPPDATA%\Spotify\Users`
 
-This tool consists of two lightweight pieces:
-1. **Spicetify Extension (`profile-switcher.js`)**: Injects a custom modal into Spotify's client interface, manages saved profile metadata, and triggers session switches.
-2. **Local Helper Service (`server.js`)**: A tiny local HTTP daemon listening on `127.0.0.1:45821`. It remains completely idle (0% CPU) until you click an action in Spotify. When triggered, it gracefully closes Spotify, swaps the target profile's session tokens into Spotify's AppData directories, and restarts Spotify before returning to idle.
+This project consists of two components:
+1. **Extension (`profile-switcher.js`)**: Injects the switcher interface into Spotify, tracks profile labels and avatars, and sends switch commands.
+2. **Helper Service (`server.js`)**: A local HTTP server listening on `127.0.0.1:45821`. When a switch is requested, it closes Spotify, swaps the corresponding session files in AppData, and relaunches the application. It remains idle at all other times.
 
 ---
 
-## 🗑️ Uninstallation
+## Uninstallation
 
-Run `uninstall.bat` to disable the Spicetify extension and remove the auto-start background helper.
+Run `uninstall.bat` to disable the Spicetify extension and remove the helper from Windows startup.
 
 ---
 
-## 📄 License
+## License
 
-MIT License. Feel free to modify and share!
+MIT License
