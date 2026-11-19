@@ -53,6 +53,34 @@ Open the Profile Switcher menu and click **Switch** next to the desired profile.
 
 ---
 
+## Troubleshooting
+
+### If the Helper Shows as Offline
+
+If the Profile Switcher modal displays a warning stating that the local helper service is offline:
+
+1. **Start the Helper Manually**:
+   - Press `Win + R`, paste the following path, and press Enter:
+     ```
+     wscript.exe "%USERPROFILE%\.spotify-profiles\start-server.vbs"
+     ```
+   - Alternatively, navigate to `%USERPROFILE%\.spotify-profiles` and double-click `start-server.vbs`.
+
+2. **Verify Node.js is Installed**:
+   - Open Command Prompt or PowerShell and run:
+     ```bash
+     node -v
+     ```
+   - If Node.js is not recognized, install it from [nodejs.org](https://nodejs.org/).
+
+3. **Re-run the Installer**:
+   - Run `install.bat` from this repository again. It will re-register the Windows startup entry and relaunch the helper process.
+
+4. **Verify Port Availability**:
+   - The helper listens on `127.0.0.1:45821`. Ensure no other application or firewall rule is blocking this local port.
+
+---
+
 ## How It Works
 
 Spotify stores its login credentials and user storage files in:
